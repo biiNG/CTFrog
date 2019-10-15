@@ -1,0 +1,13 @@
+{% if request.user.is_authed %}
+                <p>欢迎！</p>
+                <ul class="nav navbar-nav">
+                    <li><a href="/user/">信息</li>
+                    <button type="button" class="btn btn-default " href="#">注销</button>
+                </ul>
+            {%  else %}
+            <ul style="height: 30px;line-height:50px" class="nav navbar-nav navbar-right">
+                <p>亲，欢迎你来！请：</p>
+                <button type="button" class="btn btn-default " href="/login/">登录</button>
+                <button type="button" class="btn btn-link " href="/signin/">注册</button>
+            </ul>
+            {% endif %}

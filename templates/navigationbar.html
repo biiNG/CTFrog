@@ -1,0 +1,75 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width , initial-scale=1, viewport-fit='cover'">
+
+    {% block title %}
+    {% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navi-bar.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=ABeeZee' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+    <script type="text/javascript" src="{% static 'bootstrap/js/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+    {% block customcss %}
+    {% endblock %}
+
+</head>
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" style="font-size: 30px;line-height:10px" href="/home/">CTFrog</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+
+                <li><a href="/announcement/">公告栏</a></li>
+                <li><a href="/rank/">排行榜</a></li>
+                <li><a href="/messageboard/">留言板</a></li>
+                <li><a href="/challenge/">开始挑战</a></li>
+            </ul>
+        </div>
+        <div>
+
+
+            <ul class="nav navbar-nav navbar-right" style="height: 30px;line-height:50px">
+                <li style="color: #9d9d9d">欢迎！</li>
+                <button type="button" class="btn btn-default " href="/user/">信息</button>
+                <button type="button" class="btn btn-link " href="#">注销</button>
+            </ul>
+
+            <ul style="height: 30px;line-height:50px" class="nav navbar-nav navbar-right">
+                <li style="color: #9d9d9d">亲，欢迎你来！请：</li>
+                <button type="button" class="btn btn-default " href="/login/">登录</button>
+                <button type="button" class="btn btn-link " href="/signin/">注册</button>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+{% block custombody %}
+{% endblock %}
+
+<footer style="text-align:center;">
+    © WBH PZY LXR &nbsp;&nbsp; ALL RIGHTS RESERVED.<br/>
+    SCSS, BUPT.<br/>
+    Powered By Django.<br/>
+    GITHUB:<a href="https://github.com/biiNG/CTFrog/">https://github.com/biiNG/CTFrog/</a>
+</footer>
+
+<!--<script type="text/javascript" src="{% static 'js/navbar.js' %}"></script>-->
+
+</body>
+</html>
