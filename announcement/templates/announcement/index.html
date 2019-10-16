@@ -1,0 +1,24 @@
+{% extends 'navigationbar.html' %}
+{% block title %}
+<title>Announcement</title>
+{% endblock %}
+
+
+{% block custombody %}
+{% if announcement_list %}
+{% for announcement in announcement_list %}
+<div class="panel panel-default">
+
+    <div class="panel-body">
+        {{ announcement.announcement_text }}
+    </div>
+    <div class="panel-footer">
+        {{ announcement.pub_user }}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p>No announcements so far!</p>
+{% endif %}
+
+{% endblock %}
