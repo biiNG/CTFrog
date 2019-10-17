@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
+    'login.apps.LoginConfig',
     'announcement.apps.AnnouncementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -117,8 +118,4 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
-# STATIC_URL = '/static/'
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static")
-# ]
+# LOGIN_URL=''
