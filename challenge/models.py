@@ -3,10 +3,13 @@ from django.db import models
 
 # Create your models here.
 class Challenge(models.Model):
-    title = models.CharField(max_length=20)
-    type = models.CharField(max_length=10)
+    title = models.CharField(max_length=20,unique=True)
+    category = models.CharField(max_length=10)
+    description = models.CharField(max_length=200,blank=True,default="")
     bonus = models.IntegerField()
+    flag = models.CharField(max_length=200)
     href = models.URLField()
+    file = models.FileField(max_length=200,null=True)
 
     #  finishMe = models.ManyToManyField(
     #      'account.User',  # TODO: choose the right models,need to import

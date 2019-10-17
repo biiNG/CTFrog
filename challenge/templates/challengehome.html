@@ -1,11 +1,31 @@
+{% extends 'navigationbar.html' %}
 {% load staticfiles %}
+
+{% block title %}
+    Challenge
+{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/challengehome.css' %}">
+{% endblock %}
 
 {% block custombody %}
     <h1>已经准备好开始了吗？</h1>
-    <ul>
-        {% for challenge in all %}
-        <li>{{challenge.title}}</li>
+    <div>
+        <div id="pwn">
+    {% if pwn_challenge %}
+        {% for challenge in pwn_challenge %}
+            {% if challenge not in finished %}
+                <li><a href="{{ challenge.challenge_id }}/challengedetail.html">{{ challenge.title }}</a></li>
+            {% else %}
+                <li class="finished"><a
+                        href="{{ challenge.challenge_id }}/challengedetail.html">{{ challenge.title }}</a></li>
+            {% endif %}
         {% endfor %}
-    </ul>
+        </div>
+    {% else %}
+        <p style="color: #b92c28">暂无题目！</p>
+    {% endif %}
+    </div>
 
 {% endblock %}
