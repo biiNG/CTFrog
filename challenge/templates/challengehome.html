@@ -1,0 +1,11 @@
+{% load staticfiles %}
+
+{% block custombody %}
+    <h1>已经准备好开始了吗？</h1>
+    <ul>
+        {% for challenge in all %}
+        <li>{{challenge.title}}</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
