@@ -2,14 +2,17 @@ from django.db import models
 
 
 # Create your models here.
+def challenge_file_path(instance):
+    return 'ChallengeFiles/{}'.format(instance.category)
+
+
 class Challenge(models.Model):
-    title = models.CharField(max_length=20,unique=True)
+    title = models.CharField(max_length=20, unique=True)
     category = models.CharField(max_length=10)
-    description = models.CharField(max_length=200,blank=True,default="")
+    description = models.CharField(max_length=200, blank=True, default="")
     bonus = models.IntegerField()
     flag = models.CharField(max_length=200)
-    href = models.URLField()
-    file = models.FileField(max_length=200,null=True)
+    file = models.FileField(null=True, upload_to='ChallengeFiles/')
 
     #  finishMe = models.ManyToManyField(
     #      'account.User',  # TODO: choose the right models,need to import
@@ -20,7 +23,7 @@ class Challenge(models.Model):
     #     ordering = ['type']
 
     def __str__(self):
-        return self.type + ' | ' + self.title
+        return self.category + ' | ' + self.title
 
 
 class WhoFinishMe(models.Model):

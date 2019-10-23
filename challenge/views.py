@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from challenge.models import Challenge,WhoFinishMe
+from challenge.models import Challenge, WhoFinishMe
 
 
 def ChallengeHome(request):
@@ -20,13 +20,13 @@ def ChallengeHome(request):
         elif c.category == 'gen':
             gen_challenges.append(c)
 
-    return render(request,'challengehome.html',{'pwn_challenge':pwn_challenges,
-                                                'web_challenges':web_challenges,
-                                                're_challenges':re_challenges,
-                                                'gen_challenges':gen_challenges,
-                                                'finished' : finished_challenges,
-                                                },
-    )
+    return render(request, 'challengehome.html', {'pwn_challenge': pwn_challenges,
+                                                  'web_challenges': web_challenges,
+                                                  're_challenges': re_challenges,
+                                                  'gen_challenges': gen_challenges,
+                                                  'finished': finished_challenges,
+                                                  },
+                  )
 
 # def ChallengeDetail(request):
 #

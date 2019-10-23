@@ -14,11 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import url
 from django.urls import path, include
+from django.views.static import serve  # 上传文件处理函数
+
+from .settings import MEDIA_ROOT  # 从配置中导入MEDIA_ROOT
+
 
 urlpatterns = [
     path('', include('home.urls')),
     path('home/', include('home.urls')),
-    path('challenge/',include('challenge.urls')),
+    path('challenge/', include('challenge.urls')),
     path('admin/', admin.site.urls),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
 ]
