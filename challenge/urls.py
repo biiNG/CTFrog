@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.ChallengeHome),
-    # path('<int:pk>/', views.challengedetail),
+    path('<int:primarykey>/', views.ChallengeDetail),
     # path('<int:pk>/result/', views.challengeresult),
 ]

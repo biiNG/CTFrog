@@ -12,20 +12,43 @@
 {% block custombody %}
     <h1>已经准备好开始了吗？</h1>
     <div>
-        <div id="pwn">
-    {% if pwn_challenge %}
-        {% for challenge in pwn_challenge %}
-            {% if challenge not in finished %}
-                <li><a href="{{ challenge.challenge_id }}/challengedetail.html">{{ challenge.title }}</a></li>
+        <ul id="pwn">
+            {% if pwn_challenges %}
+                <h2><span class="label label-default">PWN</span></h2>
+                {% for challenge in pwn_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a
+                                href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
             {% else %}
-                <li class="finished"><a
-                        href="{{ challenge.challenge_id }}/challengedetail.html">{{ challenge.title }}</a></li>
+                <p style="color: #b92c28">暂无题目！</p>
             {% endif %}
-        {% endfor %}
-        </div>
-    {% else %}
-        <p style="color: #b92c28">暂无题目！</p>
-    {% endif %}
+    </div>
+    <div>
+        <ul id="web">
+            {% if web_challenges %}
+                <h2><span class="label label-default">WEB</span></h2>
+                {% for challenge in web_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #b92c28">暂无题目！</p>
+            {% endif %}
     </div>
 
 {% endblock %}

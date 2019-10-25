@@ -20,7 +20,7 @@ def ChallengeHome(request):
         elif c.category == 'gen':
             gen_challenges.append(c)
 
-    return render(request, 'challengehome.html', {'pwn_challenge': pwn_challenges,
+    return render(request, 'challengehome.html', {'pwn_challenges': pwn_challenges,
                                                   'web_challenges': web_challenges,
                                                   're_challenges': re_challenges,
                                                   'gen_challenges': gen_challenges,
@@ -28,6 +28,16 @@ def ChallengeHome(request):
                                                   },
                   )
 
-# def ChallengeDetail(request):
-#
+
+def ChallengeDetail(request, primarykey):
+    challenge = Challenge.objects.get(pk=primarykey)
+
+    return render(request, 'challengedetail.html', {'title': challenge.title,
+                                                    'category': challenge.category,
+                                                    'description': challenge.description,
+                                                    'bonus': challenge.bonus,
+                                                    'flag': challenge.flag,
+                                                    'file': challenge.file,
+                                                    },
+                  )
 # def ChallengeResult(request):
