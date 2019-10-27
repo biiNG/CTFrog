@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    Challenge&nbsp&nbsp{{ title }}
+    Challenge&nbsp{{ title }}
 {% endblock %}
 
 {% block customcss %}
@@ -16,8 +16,17 @@
             <li>分数 : {{ bonus }}</li>
             <li>分类 : {{ category }}</li>
             <li><p>题目描述 ：<br/>{{ description }}</p></li>
-            <li><a href="{{ file }}">传送门</a></li>
+            <li><a href="/media/{{ file.name }}">传送门</a></li>
         </ul>
-
     </div>
+    <form name = "Flag" action = "{% url 'check-flag' pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input  type="submit" value="提交">
+    </form>
+    {% if messages %}
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

@@ -26,5 +26,8 @@ urlpatterns = [
     path('home/', include('home.urls')),
     path('challenge/', include('challenge.urls')),
     path('admin/', admin.site.urls),
+    path('announcement/', include('announcement.urls')),
+    path('user/', include('user.urls'), name='user'),
+
     url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
 ]

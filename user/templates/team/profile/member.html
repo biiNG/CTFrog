@@ -1,0 +1,23 @@
+{% extends 'navigationbar.html'%}
+
+{%block custombody%}
+{% if message %}
+<h1>{{message}}</h1>
+{% endif %}
+<p>this is team member profile </p>
+<p>your team's score:{{score}}</p>
+<p>your team has these members:</p>
+
+{% for member in members%}
+{% ifequal member.name request.session.username %}
+<p>{{member}}(this is you!)</p>
+{% else %}
+<p>{{member}}</p>
+{% endifequal %}
+{% endfor %}
+
+{% for apply in appliessent %}
+<p>To ----- {{apply.team}}-------Status: {{apply.apply_state}}</p>
+{% endfor %}
+
+{%endblock%}

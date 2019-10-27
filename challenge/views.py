@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
+from user import check_permission, User
+from .forms import FlagForm
 from challenge.models import Challenge, WhoFinishMe
 
 
@@ -31,6 +34,7 @@ def ChallengeHome(request):
 
 def ChallengeDetail(request, primarykey):
     challenge = Challenge.objects.get(pk=primarykey)
+    form = FlagForm(request.POST)
 
     return render(request, 'challengedetail.html', {'title': challenge.title,
                                                     'category': challenge.category,
@@ -38,6 +42,32 @@ def ChallengeDetail(request, primarykey):
                                                     'bonus': challenge.bonus,
                                                     'flag': challenge.flag,
                                                     'file': challenge.file,
+                                                    'pk': primarykey,
+                                                    'form': form,
                                                     },
                   )
+
+
 # def ChallengeResult(request):
+
+# def NoFlag(request):
+#     messages.success(request, "你什么Flag也没有输入！")
+
+@check_permission.check_login
+def CheckFlag(request, primarykey):
+    if request.method == "POST":
+        form = FlagForm(request.POST)
+        if form.is_bound:
+            if form.is_valid():
+                challenge = Challenge.objects.get(pk=primarykey)
+                user = User.objects.get(username=request.session['username'])
+                if form.cleaned_data["Flag"] == challenge.flag:
+                    F1 = WhoFinishMe(challenge=challenge, user=user)
+                    F1.save()
+                    messages.add_message(request, messages.SUCCESS, "Frog Caught！")
+                    user.mark += challenge.bonus
+                else:
+                    messages.add_message(request, messages.ERROR, "Frog is escaping......")
+                return redirect('challenge-detail', primarykey=primarykey)
+    else:
+        return redirect('challenge-detail', primarykey=primarykey)

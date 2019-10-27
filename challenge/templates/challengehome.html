@@ -18,11 +18,11 @@
                 {% for challenge in pwn_challenges %}
                     {% if challenge not in finished %}
                         <li>
-                            <a href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
                         </li>
                     {% else %}
                         <li class="finished"><a
-                                href="/challenge/{{ challenge.pk }}">{{ challenge.title }}</a>
+                                href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
                         </li>
                     {% endif %}
                 {% endfor %}

@@ -1,5 +1,5 @@
 from django.db import models
-
+from user.models import User
 
 # Create your models here.
 def challenge_file_path(instance):
@@ -14,10 +14,7 @@ class Challenge(models.Model):
     flag = models.CharField(max_length=200)
     file = models.FileField(null=True, upload_to='ChallengeFiles/')
 
-    #  finishMe = models.ManyToManyField(
-    #      'account.User',  # TODO: choose the right models,need to import
-    #      through='WhoFinishMe',
-    #  )
+    finishMe = models.ManyToManyField(User,through='WhoFinishMe')
 
     # class Meta:
     #     ordering = ['type']
@@ -28,7 +25,7 @@ class Challenge(models.Model):
 
 class WhoFinishMe(models.Model):
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
-    # user = models.ForeignKey(account.User, on_delete=models.CASCADE)  # TODO: choose the right models
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     finished = models.BooleanField(default=False)
     finishedTime = models.DateField(auto_now_add=True)
 

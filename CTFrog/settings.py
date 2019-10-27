@@ -35,7 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'challenge',
+    'home.apps.HomeConfig',
+    # 'login.apps.LoginConfig',
+    'user.apps.UserConfig',
+    'announcement.apps.AnnouncementConfig',
+    'challenge.apps.ChallengeConfig',
 ]
 
 MIDDLEWARE = [

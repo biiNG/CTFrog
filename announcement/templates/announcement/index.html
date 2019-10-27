@@ -1,0 +1,32 @@
+{% extends 'navigationbar.html' %}
+{% block title %}
+Announcement
+{% endblock %}
+
+
+{% block custombody %}
+{% if announcement_list %}
+{% for announcement in announcement_list %}
+<h1>Announcements:</h1>
+<div class="panel panel-default">
+
+    <div class="panel-body">
+        {{ announcement.announcement_text }}
+
+        <br><br><br><br><br><br>
+
+    </div>
+    <div class="panel-footer">
+        published by {{  announcement.pub_user }}, on {{ announcement.pub_date}}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="panel panel-default">
+    <div class="panel-body">
+        No announcements available!!
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

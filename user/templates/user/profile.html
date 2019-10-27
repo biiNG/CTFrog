@@ -1,0 +1,43 @@
+{% extends 'navigationbar.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+<title>Team Details</title>
+{% endblock %}
+
+{% block customcss %}
+{% endblock %}
+
+{% block custombody %}
+
+<div id="pageHeading">
+    <p>Profile</p>
+</div>
+
+<div class="container">
+    <div id="updateForm">
+        {% for item in unchange %}
+        <p><b>{{item}}</b> : {{ item.value }}</p>
+        {% endfor %}
+        <p><b>{{username}}</b> : {{ username }}</p>
+
+        <form method="post" action="{% url 'user:profile' %}">
+            {% csrf_token %}
+            {% for field in form %}
+            <div>
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+
+            <input type="submit" name="update" value="Update" class="updateFormButton">
+        </form>
+        <a href="{%url 'user:changepassword' %} ">修改密码</a>
+    </div>
+    <div style="text-align: center;">
+        <a href="changepassword/">Change Password</a>
+    </div>
+</div>
+
+{% endblock %}
