@@ -27,7 +27,8 @@ class WhoFinishMe(models.Model):
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     finished = models.BooleanField(default=False)
-    finishedTime = models.DateField(auto_now_add=True)
+    finishedTime = models.DateTimeField(auto_now_add=True)
+    #signature = models.CharField(default=user.name+' finish '+challenge.title,unique=True)
 
     def __str__(self):
-        return
+        return self.user.name+' finish '+self.challenge.title

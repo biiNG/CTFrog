@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from user import check_permission, User
+from user import check_permission, models
 from .forms import FlagForm
 from challenge.models import Challenge, WhoFinishMe
 
@@ -34,6 +34,9 @@ def ChallengeHome(request):
 
 def ChallengeDetail(request, primarykey):
     challenge = Challenge.objects.get(pk=primarykey)
+    username = request.session['username']
+    user_existed = models.User.objects.get(name=username)
+    finish = WhoFinishMe.objects.filter(challenge=challenge).filter(user=user_existed)
     form = FlagForm(request.POST)
 
     return render(request, 'challengedetail.html', {'title': challenge.title,
@@ -44,6 +47,7 @@ def ChallengeDetail(request, primarykey):
                                                     'file': challenge.file,
                                                     'pk': primarykey,
                                                     'form': form,
+                                                    'finish': finish,
                                                     },
                   )
 
@@ -60,12 +64,21 @@ def CheckFlag(request, primarykey):
         if form.is_bound:
             if form.is_valid():
                 challenge = Challenge.objects.get(pk=primarykey)
-                user = User.objects.get(username=request.session['username'])
-                if form.cleaned_data["Flag"] == challenge.flag:
-                    F1 = WhoFinishMe(challenge=challenge, user=user)
+                username = request.session['username']
+                user_existed = models.User.objects.get(name=username)
+                finish = WhoFinishMe.objects.filter(challenge=challenge).filter(user=user_existed)
+
+                if (form.cleaned_data["Flag"] == challenge.flag) and (not finish):
+                    F1 = WhoFinishMe(challenge=challenge, user=user_existed, finished=True)
                     F1.save()
                     messages.add_message(request, messages.SUCCESS, "Frog Caught！")
-                    user.mark += challenge.bonus
+                    user_existed.mark += challenge.bonus
+                    user_existed.save()
+                    if request.session['is_in_team']:
+                        teamname = request.session['teamname']
+                        team = models.Team.objects.get(name=teamname)
+                        team.score += challenge.bonus
+                        team.save()
                 else:
                     messages.add_message(request, messages.ERROR, "Frog is escaping......")
                 return redirect('challenge-detail', primarykey=primarykey)

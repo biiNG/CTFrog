@@ -45,7 +45,6 @@ def login(request):
                 request.session['is_login'] = True
                 # request.session['user_id']      = user_existed.id
                 request.session['username'] = user_existed.name
-                request.session['mark'] = user_existed.mark
                 if user_existed.team:
                     request.session['teamname'] = user_existed.team.name
                     request.session['is_in_team'] = True
