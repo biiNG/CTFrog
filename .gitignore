@@ -1,3 +1,6 @@
 venv
 .idea
 venv/Libs/site-packages/setuptools-40.8.0-py3.7.egg
+*/*/*.pyc
+*/*.pyc
+*/*/*/*.pyc

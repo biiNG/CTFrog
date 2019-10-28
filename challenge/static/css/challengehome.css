@@ -1,4 +1,4 @@
 .finished{
-    text-decoration:line-through
-    color(#3c3c3c);
+    text-decoration:line-through;
+    color:gray;
 }
