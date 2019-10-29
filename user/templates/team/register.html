@@ -1,0 +1,23 @@
+{% extends 'navigationbar.html'%}
+{% block custombody %}
+<form class="form-register" action="{% url 'user:teamregister' %}" method="post">
+
+
+    {% if message %}
+    <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+    {% csrf_token %}
+    <h3 class="text-center">建立团队</h3>
+
+    {% for each in register_form %}
+    <div class="form-group">
+        <label>{{ each.label }}</label>
+        {{ each }}
+    </div>
+    {% endfor %}
+
+    <div>
+        <button type="submit" class="btn btn-primary float-right">注册</button>
+    </div>
+</form>
+{%endblock%}

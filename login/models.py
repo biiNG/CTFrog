@@ -14,6 +14,8 @@ class User(models.Model):
     email=models.EmailField(unique=True)
     sex=models.CharField(max_length=32,choices=gender,default='男')
     creat_time=models.DateTimeField(auto_now_add=True) #auto_now_add 自动设置为创建这个model的时间
+    student_id=models.CharField(max_length=20,verbose_name='The student id of the user')
+    # 暂时不加入team
 
     def __str__(self):
         return self.name #可读化显示

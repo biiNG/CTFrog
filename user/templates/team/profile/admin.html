@@ -1,0 +1,29 @@
+{% extends 'navigationbar.html'%}
+
+{%block custombody%}
+{% if message %}
+<h1>{{message}}</h1>
+{% endif %}
+<p>this is team admin profile </p>
+<p>your team's score:{{score}}</p>
+<p>your team has these members:</p>
+{% for member in members%}
+{% ifequal member.name request.session.username %}
+<p>{{member}}(this is you!)</p>
+{% else %}
+<p>{{member}}</p>
+{% endifequal %}
+{% endfor %}
+
+{% if appliesreceived %}
+{% for apply in appliesreceived %}
+<p>sender: {{apply.sender}} apply_date: {{apply.apply_date}}------
+    <a href="{% url 'user:teamapplyapproved' apply.id %}">同意</a>/
+    <a href="{% url 'user:teamapplydenied' apply.id %}">拒绝</a>
+</p>
+{% endfor %}
+
+{% else %}
+<h2>no applies for now!</h2>
+{% endif %}
+{%endblock%}

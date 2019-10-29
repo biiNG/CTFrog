@@ -1,0 +1,21 @@
+
+'Manager' object has no attribute 'remove'
+5
+5
+5
+5
+5
+5
+5
+5
+5
+5
+[]
+[]
+5
+5
+5
+5
+['liu2']
+5
+['liu2', 'liu3']

@@ -1,0 +1,10 @@
+{% extends 'navigationbar.html' %}
+<!-- 只有没有加入或创建任何团队的用户才会显示该界面 -->
+<!-- 会显示两个选项：创建团队或加入团队 -->
+{% block custombody %}
+<a href="{% url 'user:teamregister'%}">创建团队</a>
+<a href="{% url 'user:teamjoin'%}">加入团队</a>
+{% for apply in appliessent %}
+<p>To ----- {{apply.team}}-------Status: {{apply.apply_state}}</p>
+{% endfor %}
+{% endblock %}

@@ -42,25 +42,31 @@
                 </ul>
             </div>
             <div>
-
-
-                <ul class="nav navbar-nav navbar-right" style="height: 30px;line-height:50px">
-                    <li style="color: #9d9d9d">欢迎！</li>
-                    <button type="button" class="btn btn-default " href="/user/">信息</button>
-                    <button type="button" class="btn btn-link " href="#">注销</button>
-                </ul>
-
                 <ul style="height: 30px;line-height:50px" class="nav navbar-nav navbar-right">
+                    {% if not request.session.is_login %}
                     <li style="color: #9d9d9d">亲，欢迎你来！请：</li>
-                    <a href="/login/login" , class="btn btn-link ">
+                    <a href="{% url 'user:login'%}" , class="btn btn-link ">
                         <button type="button">登录</button>
                     </a>
-                    <a href="/login/register" , class="btn btn-link ">
+                    <a href="{% url 'user:register' %}" , class="btn btn-link ">
                         <button type="button">注册</button>
                     </a>
-                    <a href="/login/logout" , class="btn btn-link ">
+
+                    {% else %}
+                    <li style="color: #9d9d9d">{{request.session.username}}，欢迎！</li>
+
+                    <a href="{%url 'user:logout'%}" , class="btn btn-link ">
                         <button type="button">注销</button>
                     </a>
+
+                    <a href="{%url 'user:profile'%}" , class="btn btn-link ">
+                        <button type="button">账户管理</button>
+                    </a>
+                    
+                    <a href="{%url 'user:teamprofile'%}" , class="btn btn-link ">
+                        <button type="button">我的团队</button>
+                    </a>
+                    {% endif %}
 
                 </ul>
 

@@ -1,0 +1,14 @@
+{% extends 'navigationbar.html' %}
+{% block custombody %}
+
+{% if message %}
+<h1>{{message}}</h1>
+{% endif %}
+<form action="{% url 'user:teamjoin' %}" method="POST">
+    {% csrf_token %}
+    {%for team in teams %}
+    <input checked type="radio" name="team" value="{{team.name}}">{{team.name}}-----{{team.email}}-----{{team.score}}
+    {% endfor%}
+    <button type="submit">提交数据</button>
+</form>
+{% endblock %}
