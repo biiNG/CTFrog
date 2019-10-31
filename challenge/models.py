@@ -15,6 +15,7 @@ class Challenge(models.Model):
     file = models.FileField(null=True, upload_to='ChallengeFiles/')
 
     finishMe = models.ManyToManyField(User,through='WhoFinishMe')
+    finishedtimes = models.IntegerField(default=0)
 
     # class Meta:
     #     ordering = ['type']
