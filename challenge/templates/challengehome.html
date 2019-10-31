@@ -1,0 +1,93 @@
+{% extends 'navigationbar.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Challenge
+{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/challengehome.css' %}">
+{% endblock %}
+
+{% block custombody %}
+    <h1>已经准备好开始了吗？</h1>
+    <div>
+        <ul id="pwn">
+        <h2><span class="label label-default">PWN</span></h2>
+            {% if pwn_challenges %}
+                {% for challenge in pwn_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a
+                                href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #b92c28">暂无题目！</p>
+            {% endif %}
+    </div>
+    <div>
+        <ul id="web">
+        <h2><span class="label label-default">WEB</span></h2>
+            {% if web_challenges %}
+                {% for challenge in web_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #b92c28">暂无题目！</p>
+            {% endif %}
+    </div>
+    <div>
+        <ul id="re">
+        <h2><span class="label label-default">REVERSE</span></h2>
+            {% if re_challenges %}
+                {% for challenge in re_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #b92c28">暂无题目！</p>
+            {% endif %}
+    </div>
+    <div>
+        <ul id="gen">
+              <h2><span class="label label-default">GENERAL</span></h2>
+            {% if gen_challenges %}
+
+                {% for challenge in gen_challenges %}
+                    {% if challenge not in finished %}
+                        <li>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% else %}
+                        <li class="finished"><a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #b92c28">暂无题目！</p>
+            {% endif %}
+    </div>
+
+{% endblock %}

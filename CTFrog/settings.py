@@ -29,16 +29,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'home.apps.HomeConfig',
+    'rank.apps.RankConfig',
     # 'login.apps.LoginConfig',
     'user.apps.UserConfig',
-    'announcement.apps.AnnouncementConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home.apps.HomeConfig',
+    # 'login.apps.LoginConfig',
+
+    'announcement.apps.AnnouncementConfig',
+    'challenge.apps.ChallengeConfig',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -104,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -119,4 +125,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
-# LOGIN_URL=''
+# LOGIN_URL='
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media').replace('\\', '/')
+MEDIA_URL = '/media/'

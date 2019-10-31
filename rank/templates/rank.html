@@ -1,0 +1,231 @@
+{% extends 'navigationbar.html' %}
+
+
+{% block custombody %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="btn-group">
+                    <a href="/rank?type=person">
+                        <button type="button" class="btn btn-default">个人</button>
+                    </a>
+                    <a href="/rank?type=team">
+                        <button type="button" class="btn btn-default">团队</button>
+                    </a>
+
+                </div>
+            </div>
+            <div class="col-sm-6" style="text-align: center"><h2>
+                {% ifequal ranktype 'team' %}
+                    团队排行榜
+                {% else %}
+                    个人排行榜
+                {% endifequal %}
+            </h2></div>
+            <div class="col-sm-3">
+                <form role="form" action="/rank" method="get">
+
+                    <div class="input-group">
+                        <input type="text" name="keyword" class="form-control">
+
+                        <input type="text" name="type" value="{{ ranktype }}" style="display: none">
+
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Go!</button>
+                    </span>
+                    </div><!-- /input-group -->
+
+                </form>
+            </div>
+        </div>
+        <table class="table">
+
+            {% ifequal ranktype "team" %}
+                <thead>
+                <tr>
+                    <th>排名</th>
+                    <th>团队名</th>
+                    <th>总得分</th>
+                </tr>
+
+
+                </thead>
+                <tbody>
+                {% for foo in data.object_list %}
+
+                    {% ifequal foo.id 1 %}
+                        <tr style="color: DodgerBlue;font-size: 18px">
+
+                            <td>{{ foo.id }}</td>
+                            <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                            <td>{{ foo.score }}</td>
+
+                        </tr>
+
+                    {% else %}
+
+                        {% ifequal foo.id 2 %}
+                            <tr style="color: DodgerBlue;font-size: 17px">
+
+                                <td>{{ foo.id }}</td>
+                                <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                <td>{{ foo.score }}</td>
+
+                            </tr>
+
+                        {% else %}
+                            {% ifequal foo.id 3 %}
+                                <tr style="color: DodgerBlue;font-size: 16px">
+
+                                    <td>{{ foo.id }}</td>
+                                    <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                    <td>{{ foo.score }}</td>
+
+                                </tr>
+
+                            {% else %}
+                                <tr>
+
+                                    <td>{{ foo.id }}</td>
+                                    <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                    <td>{{ foo.score }}</td>
+
+                                </tr>
+
+
+                            {% endifequal %}
+
+
+                        {% endifequal %}
+
+
+                    {% endifequal %}
+                {% endfor %}
+                </tbody>
+
+            {% else %}
+
+                <thead>
+                <tr style="font-size:20px">
+                    <th>排名</th>
+                    <th>用户名</th>
+                    <th>得分</th>
+                    <th>做题数</th>
+                    <th>提交数</th>
+                    <th>正确率</th>
+                </tr>
+
+
+                </thead>
+                <tbody>
+
+                {% for foo in data.object_list %}
+                    {% ifequal foo.id 1 %}
+                        <tr style="color: DodgerBlue;font-size: 18px">
+                            <td>{{ foo.id }}</td>
+                            <td><a href="/user/profile">{{ foo.name }}</a></td>
+                            <td>{{ foo.mark }}</td>
+                            <td>{{ foo.answer_num }}</td>
+                            <td>{{ foo.submit_num }}</td>
+                            <td>{{ foo.rate_num }}</td>
+                        </tr>
+
+
+                    {% else %}
+
+                        {% ifequal foo.id 2 %}
+                            <tr style="color: DodgerBlue;font-size: 17px">
+                                <td>{{ foo.id }}</td>
+                                <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                <td>{{ foo.mark }}</td>
+                                <td>{{ foo.answer_num }}</td>
+                                <td>{{ foo.submit_num }}</td>
+                                <td>{{ foo.rate_num }}</td>
+                            </tr>
+
+
+                        {% else %}
+                            {% ifequal foo.id 3 %}
+                                <tr style="color: DodgerBlue;font-size: 16px">
+                                    <td>{{ foo.id }}</td>
+                                    <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                    <td>{{ foo.mark }}</td>
+                                    <td>{{ foo.answer_num }}</td>
+                                    <td>{{ foo.submit_num }}</td>
+                                    <td>{{ foo.rate_num }}</td>
+                                </tr>
+
+
+                            {% else %}
+
+                                <tr>
+                                    <td>{{ foo.id }}</td>
+                                    <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                    <td>{{ foo.mark }}</td>
+                                    <td>{{ foo.answer_num }}</td>
+                                    <td>{{ foo.submit_num }}</td>
+                                    <td>{{ foo.rate_num }}</td>
+                                </tr>
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endifequal %}
+
+                {% endfor %}
+
+
+                </tbody>
+
+
+            {% endifequal %}
+
+
+        </table>
+        <ul class="pagination">
+
+            {% if data.has_previous %}
+
+
+
+
+                <li><a href="/rank?page={{ data.previous_page_number }}{% if keyword %}
+                &keyword={{ keyword }}
+                {% endif %}{% if ranktype %}
+                &type={{ ranktype }}
+                {% endif %}">&laquo;</a></li>
+
+            {% endif %}
+
+            {% for foo in all_page.page_range %}
+
+                {% ifequal foo data.number %}
+                    <li class="active"><a href="#">{{ foo }}</a></li>
+
+                {% else %}
+                    <li><a href="/rank?page={{ foo }}{% if keyword %}
+                &keyword={{ keyword }}
+                {% endif %}{% if ranktype %}
+                &type={{ ranktype }}
+                {% endif %}">{{ foo }}</a></li>
+
+
+                {% endifequal %}
+
+
+
+
+
+
+
+            {% endfor %}
+            {% if data.has_next %}
+                <li><a href="/rank?page={{ data.next_page_number }}{% if keyword %}
+                &keyword={{ keyword }}
+                {% endif %}{% if ranktype %}
+                &type={{ ranktype }}
+                {% endif %}">&raquo;</a></li>
+
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

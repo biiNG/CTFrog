@@ -134,9 +134,9 @@ def applyapproved(request, apply_id):
     cnt = 0
     try:
         apply = ApplyMessage.objects.get(pk=apply_id)
-        # cnt += 1
+        cnt += 1
         sender = apply.sender
-        # cnt += 1
+        cnt += 1
         team = Team.objects.get(name=request.session['teamname'])
         cnt += 1
         sender.team = team

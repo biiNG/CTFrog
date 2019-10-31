@@ -1,0 +1,41 @@
+{% extends 'navigationbar.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Challenge&nbsp{{ title }}
+{% endblock %}
+
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/challengedetail.css' %}">
+{% endblock %}
+
+{% block custombody %}
+    <h2>{{ title }}</h2>
+    <div id="Body">
+        <ul>
+            <li>分数 : {{ bonus }}</li>
+            <li>分类 : {{ category }}</li>
+            <li><p>题目描述 ：<br/>{{ description }}</p></li>
+            <li><a href="/media/{{ file.name }}">传送门</a></li>
+            <li>完成状况：
+                {% if finish %}
+                已经完成！不可以再提交flag啦！
+                {% else %}还未完成！
+                {% endif %}</li>
+        </ul>
+    </div>
+    {% if not finish %}
+    <form name = "Flag" action = "{% url 'check-flag' pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input  type="submit" value="提交">
+    </form>
+    {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'challenge-home' %}">返回挑战列表</a>
+{% endblock %}

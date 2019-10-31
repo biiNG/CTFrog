@@ -6,4 +6,7 @@
 * Django
 * Python3.7
 * Bootstrap3（还没学会）
+* 当然还有git
 * ……
+
+不过git未免也太难用了8.pycharm和git一起用的我乱乱的。
