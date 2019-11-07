@@ -1,0 +1,15 @@
+{% extends 'navigationbar.html' %}
+{% block custombody %}
+
+
+<form class="form-register" action="{% url 'user:teamexpel' id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>原因是：</label>
+        <input type="text" name="reason">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary float-right">确认</button>
+    </div>
+</form>
+{% endblock %}

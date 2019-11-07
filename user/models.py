@@ -30,7 +30,7 @@ class User(models.Model):
     creat_time = models.DateTimeField(auto_now_add=True)
     student_id = models.CharField(
         max_length=20, verbose_name='The student id of the user', default=0, null=True)
-    mark = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
     # team
     team = models.ForeignKey(
         Team, on_delete=models.SET_NULL, blank=True, null=True, default=None)
@@ -53,13 +53,32 @@ class ApplyMessage(models.Model):
     sender: the user send the apply
     apply_date: the time the sender applied
     '''
-    state=(('approved','通过'),('denied','拒绝'),('unchecked','待审核'))
+    state = (('approved', '通过'),
+             ('denied', '拒绝'),
+             ('unchecked', '待审核'),
+             ('invalid','无效了'))
     receiver = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='appliesreceived')
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='appliessent')
     apply_date = models.DateTimeField(auto_now_add=True)
-    apply_state=models.CharField(max_length=20,choices=state,default='unchecked')
-    team=models.CharField(max_length=20,default='',verbose_name='desired team')
+    apply_state = models.CharField(
+        max_length=20, choices=state, default='unchecked')
+    team = models.CharField(max_length=20, default='',
+                            verbose_name='desired team')
+
     def __str__(self):
         return self.sender.name
+
+
+class KickedMessage(models.Model):
+    '''
+    被踢了的人会收到消息
+    '''
+    reason = models.CharField(max_length=20, default='no reason')
+    kickeduser = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='kickedmessage')
+    team = models.CharField(max_length=20, default='')
+
+    def __str__(self):
+        return self.reason

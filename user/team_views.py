@@ -4,13 +4,18 @@ from django.http import HttpResponse
 from .import urls
 from . import team_forms, models
 from .check_permission import check_login, check_admin
-from .models import Team, User, ApplyMessage
+from .models import Team, User, ApplyMessage, KickedMessage
 
 
 def writetest(string):
     string = str(string)
     with open('1.txt', 'a') as f:
         f.write('\n'+string)
+
+
+def clearteamsession(request):
+    request.session.pop('is_in_team', None)
+    request.session.pop('teamname', None)
 
 
 @check_login
@@ -64,14 +69,16 @@ def profile(request):
         team = models.Team.objects.get(name=request.session['teamname'])
         teamscore = team.score
         allmembers = [u for u in team.user_set.all()]
-        appliesreceived = [a for a in user.appliesreceived.all() if a.apply_state=='unchecked']
+        appliesreceived = [
+            a for a in user.appliesreceived.all() if a.apply_state == 'unchecked']
         appliessent = [a for a in user.appliessent.all()]
         # writetest(str(team.user_set))
         variables = {'score': teamscore,
                      'members': allmembers,
                      'message': message,
                      'appliesreceived': appliesreceived,
-                     'appliessent': appliessent}
+                     'appliessent': appliessent,
+                     'team_id': team.id}
         if user.issuperuser:
             return render(request, templateurls['admin'], variables)
         else:
@@ -79,7 +86,8 @@ def profile(request):
             return render(request, templateurls['member'], variables)
     else:
         appliessent = [a for a in user.appliessent.all()]
-        return render(request, templateurls['normal'], {'appliessent': appliessent})
+        kickmessage = [k for k in user.kickedmessage.all()]
+        return render(request, templateurls['normal'], {'appliessent': appliessent,'kickmessage':kickmessage})
 
 
 @check_login
@@ -134,16 +142,14 @@ def applyapproved(request, apply_id):
     cnt = 0
     try:
         apply = ApplyMessage.objects.get(pk=apply_id)
-        # cnt += 1
         sender = apply.sender
-        # cnt += 1
         team = Team.objects.get(name=request.session['teamname'])
-        cnt += 1
         sender.team = team
-        cnt += 1
+        for a in sender.appliessent.all():#先将其他的申请置为不可用的状态
+            a.apply_state='invalid'
+            a.save()
         sender.save()
-        cnt += 1
-        apply.apply_state = 'approved'
+        apply.apply_state = 'approved'#将此申请置为可用的状态
         apply.save()
     except Exception as e:
         request.session['message'] = 'no such apply'
@@ -151,3 +157,53 @@ def applyapproved(request, apply_id):
     finally:
         writetest(cnt)
     return redirect('user:teamprofile')
+
+
+@check_login
+@check_admin
+def expel(request, user_id):
+    if(request.method == "POST"):
+        team = Team.objects.get(name=request.session['teamname'])
+        user = User.objects.get(pk=user_id)
+        user.team = None
+        user.save()
+        team.score -= user.score
+        team.save()
+        kickmessage = KickedMessage()#发送踢人的信息
+        kickmessage.reason = request.POST['reason']
+        kickmessage.team=request.session['teamname']
+        kickmessage.kickeduser = user
+        kickmessage.save()
+        # 删掉此用户当时的申请
+        admin=User.objects.get(name=request.session['username'])
+        oldapply=admin.appliesreceived.get(sender=user)
+        oldapply.delete()
+        for otherapply in user.appliessent.filter(apply_state='invalid'):
+            otherapply.apply_state='unchecked'
+            otherapply.save()
+        return redirect("user:teamprofile")
+
+    return render(request, 'team/expel.html', {'id': user_id})
+
+
+@check_login
+@check_admin
+def dismiss(request, team_id):
+    team = Team.objects.get(pk=team_id)
+    for u in team.user_set.all():
+        if not u.issuperuser:
+            u.team = None
+            u.save()
+            kickmessage = KickedMessage()
+            kickmessage.reason = "team dismissed"
+            kickmessage.save()
+    superuser = User.objects.get(name=request.session['username'])
+    superuser.issuperuser = False
+    superuser.team = None
+    for apply in superuser.appliesreceived.all():
+        apply.delete()
+    superuser.save()
+    team.delete()
+    request.session['message'] = "删除成功"
+    clearteamsession(request)
+    return redirect('user:profile')

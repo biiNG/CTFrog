@@ -4,3 +4,4 @@ from . import models
 admin.site.register(models.User)
 admin.site.register(models.Team)
 admin.site.register(models.ApplyMessage)
+admin.site.register(models.KickedMessage)

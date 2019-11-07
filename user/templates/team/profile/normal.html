@@ -7,4 +7,7 @@
 {% for apply in appliessent %}
 <p>To ----- {{apply.team}}-------Status: {{apply.apply_state}}</p>
 {% endfor %}
+{% for k in kickmessage %}
+<p>You're kicked by ------{{k.team}} because-----{{k.reason}}</p>
+{% endfor %}
 {% endblock %}
