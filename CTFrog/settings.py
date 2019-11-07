@@ -42,8 +42,12 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     # 'login.apps.LoginConfig',
 
+    'werkzeug_debugger_runserver',
+    'django_extensions',
+
     'announcement.apps.AnnouncementConfig',
     'challenge.apps.ChallengeConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -126,5 +130,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 # LOGIN_URL='
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media').replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR,
+                          'media')  # os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media').replace('\\', '/')
 MEDIA_URL = '/media/'

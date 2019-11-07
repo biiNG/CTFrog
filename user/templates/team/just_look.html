@@ -1,0 +1,33 @@
+{% extends 'navigationbar.html' %}
+{% load staticfiles %}
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/team/profile/admin.css' %}">
+{% endblock %}
+
+{% block custombody %}
+    <div class="container">
+        <div class="row center-block">
+
+
+            {% if message %}
+                <h1>{{ message }}</h1>
+            {% endif %}
+            <div class="well well-lg col-xs-4">
+                <p id="score">队伍&nbsp;{{ teamname }}&nbsp;现在的得分是：<em><b>{{ score }}</b></em></p>
+            </div>
+            <ul class="list-group col-xs-6">
+                <li class="list-group-item active"><h4 class=" list-group-item-heading"> 队伍成员 </h4></li>
+                {% for member in members %}
+                    {% if member.name == request.session.username %}
+                        <li class="list-group-item list-group-item-text">{{ member }}(就是你啦)</li>
+                    {% elif member.name == admin %}
+                        <li class="list-group-item list-group-item-success">{{ admin }}（队长）</li>
+                    {% else %}
+                        <li class="list-group-item ">{{ member }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

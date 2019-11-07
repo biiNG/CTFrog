@@ -1,4 +1,6 @@
 from django.db import models
+
+
 # Create your models here.
 
 
@@ -26,10 +28,20 @@ class User(models.Model):
     password = models.CharField(max_length=256)
     email = models.EmailField(unique=True)
     sex = models.CharField(max_length=32, choices=gender, default='男')
+    submit_num = models.IntegerField(default=0)
+    right_num = models.IntegerField(default=0)
+    accuracy = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+
+    def update_accuracy(self):
+        if self.submit_num:
+            self.accuracy = self.right_num / self.submit_num * 100
+        else:
+            self.accuracy = 0
+
     # auto_now_add 自动设置为创建这个model的时间
     creat_time = models.DateTimeField(auto_now_add=True)
-    student_id = models.CharField(
-        max_length=20, verbose_name='The student id of the user', default=0, null=True)
+    student_id = models.IntegerField(verbose_name='The student id of the user', unique=True,null=False)
+    real_name = models.CharField(max_length=10, null=False, default="default", verbose_name="The user's real_name")
     mark = models.IntegerField(default=0)
     # team
     team = models.ForeignKey(
@@ -53,13 +65,26 @@ class ApplyMessage(models.Model):
     sender: the user send the apply
     apply_date: the time the sender applied
     '''
-    state=(('approved','通过'),('denied','拒绝'),('unchecked','待审核'))
+    state = (('approved', '通过'), ('denied', '拒绝'), ('unchecked', '待审核'),('invalid','无效了'))
     receiver = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='appliesreceived')
     sender = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='appliessent')
     apply_date = models.DateTimeField(auto_now_add=True)
-    apply_state=models.CharField(max_length=20,choices=state,default='unchecked')
-    team=models.CharField(max_length=20,default='',verbose_name='desired team')
+    apply_state = models.CharField(max_length=20, choices=state, default='unchecked')
+    team = models.CharField(max_length=20, default='', verbose_name='desired team')
+
     def __str__(self):
         return self.sender.name
+
+class KickedMessage(models.Model):
+    '''
+    被踢了的人会收到消息
+    '''
+    reason = models.CharField(max_length=20, default='no reason')
+    kickeduser = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='kickedmessage')
+    team = models.CharField(max_length=20, default='')
+
+    def __str__(self):
+        return self.reason

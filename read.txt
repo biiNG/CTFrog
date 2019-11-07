@@ -1,0 +1,2 @@
+HTTPS启动命令：python manage.py runserver_plus --cert server.crt
+若不启动

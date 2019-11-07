@@ -9,12 +9,13 @@ def challenge_file_path(instance):
 class Challenge(models.Model):
     title = models.CharField(max_length=20, unique=True)
     category = models.CharField(max_length=10)
-    description = models.CharField(max_length=200, blank=True, default="")
+    description = models.TextField(max_length=200, blank=True, default="")
     bonus = models.IntegerField()
     flag = models.CharField(max_length=200)
     file = models.FileField(null=True, upload_to='ChallengeFiles/')
 
     finishMe = models.ManyToManyField(User,through='WhoFinishMe')
+    finishedtimes = models.IntegerField(default=0)
 
     # class Meta:
     #     ordering = ['type']

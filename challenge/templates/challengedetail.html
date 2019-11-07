@@ -10,32 +10,66 @@
 {% endblock %}
 
 {% block custombody %}
-    <h2>{{ title }}</h2>
-    <div id="Body">
-        <ul>
-            <li>分数 : {{ bonus }}</li>
-            <li>分类 : {{ category }}</li>
-            <li><p>题目描述 ：<br/>{{ description }}</p></li>
-            <li><a href="/media/{{ file.name }}">传送门</a></li>
-            <li>完成状况：
-                {% if finish %}
-                已经完成！不可以再提交flag啦！
-                {% else %}还未完成！
-                {% endif %}</li>
-        </ul>
-    </div>
-    {% if not finish %}
-    <form name = "Flag" action = "{% url 'check-flag' pk %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input  type="submit" value="提交">
-    </form>
-    {% endif %}
-    {% if messages %}
-        {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div id="Challenge" class="panel-default col-xs-5">
+                <div class="panel-heading">
+                    <h2 class="panel-title">{{ title }}</h2>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">分数 : {{ bonus }}</li>
+                        <li class="list-group-item">分类 : {{ category }}</li>
+                        <li class="list-group-item">题目描述 ：<br/>
+                            <p>{{ description }}</p></li>
 
-    <a href="{% url 'challenge-home' %}">返回挑战列表</a>
+                        {% if firstBlood is not None %}
+                            <li class="list-group-item">第一个完成此题目的人是：{{ firstBlood.user }}</li>
+                            <li class="list-group-item">时间为：{{ firstBlood.finishedTime }}</li>
+                        {% endif %}
+                        <li class="list-group-item">已经有{{ finishtimes }}人完成了本题</li>
+                        <li class="list-group-item list-group-item-success"><a href="/media/{{ file.name }}">传送门</a>
+                        </li>
+                        <li class="list-group-item">完成状况：
+                            {% if finish %}
+                                已经完成！不可以再提交flag啦！
+                            {% else %}还未完成！
+                            {% endif %}</li>
+                        <li class="list-group-item list-group-item-info"><a href="{% url 'challenge-home' %}">返回挑战列表</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-4 col-xs-offset-1" id="flag">
+
+                {% if not finish %}
+                    <form name="Flag" action="{% url 'check-flag' pk %}" method="post">
+                        <br>
+                        {% csrf_token %}
+                        <label>{{ form.Flag.label }}:</label><br>
+                        {{ form.Flag }}<br>
+                        <input type="submit" value="提交">
+                    </form>
+                {% endif %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert
+                        {% if message.level == 40 %}
+                        alert-warning
+                        {% elif message.level == 25 %}
+                        {% endif %} alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-hidden="true">
+                                &times;
+                            </button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

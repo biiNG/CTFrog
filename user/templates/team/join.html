@@ -1,14 +1,41 @@
 {% extends 'navigationbar.html' %}
+{% load staticfiles %}
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/team/join.css' %}">
+{% endblock %}
 {% block custombody %}
 
-{% if message %}
-<h1>{{message}}</h1>
-{% endif %}
-<form action="{% url 'user:teamjoin' %}" method="POST">
-    {% csrf_token %}
-    {%for team in teams %}
-    <input checked type="radio" name="team" value="{{team.name}}">{{team.name}}-----{{team.email}}-----{{team.score}}
-    {% endfor%}
-    <button type="submit">提交数据</button>
-</form>
+    {% if message %}
+        <h1>{{ message }}</h1>
+    {% endif %}
+    <div class="container">
+        <div class="row center-block">
+            <h3 class="text-center">队伍列表</h3>
+            <form action="{% url 'user:teamjoin' %}" method="POST" class="panel-default col-xs-4 col-xs-offset-2">
+                {% csrf_token %}
+                <div class="panel-body">
+                    {% for team in teams %}
+                        <div class="form-group">
+                            <label style="font-size: 25px">
+                                <input checked type="radio" name="team" value="{{ team.name }}">{{ team.name }}
+                            </label>
+                            <p class="help-block">队长：{{ team.admin }}&nbsp;&nbsp;&nbsp;得分：{{ team.score }}</p>
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-default float-right col-xs-2 join">提交申请</button>
+                    <button type="button" class="btn btn-default float-right col-xs-2 col-xs-offset-2 join" title="注意事项"
+                            data-container="body" data-toggle="popover" data-placement="bottom"
+                            data-content="在队长通过申请后，你将成为队伍的一员，你的成绩会计入队伍总分。加入后不能退出，请谨慎选择！">
+                        注意事项
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("[data-toggle='popover']").popover();
+        });
+    </script>
 {% endblock %}

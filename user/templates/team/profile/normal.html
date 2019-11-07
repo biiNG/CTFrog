@@ -1,10 +1,34 @@
 {% extends 'navigationbar.html' %}
+{% load staticfiles %}
 <!-- 只有没有加入或创建任何团队的用户才会显示该界面 -->
 <!-- 会显示两个选项：创建团队或加入团队 -->
+{% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/team/profile/normal.css' %}">
+{% endblock %}
+
 {% block custombody %}
-<a href="{% url 'user:teamregister'%}">创建团队</a>
-<a href="{% url 'user:teamjoin'%}">加入团队</a>
-{% for apply in appliessent %}
-<p>To ----- {{apply.team}}-------Status: {{apply.apply_state}}</p>
-{% endfor %}
+    <div class="container" id="body">
+        <p>暂时还没有加入任何团队！你可以：</p>
+        <a href="{% url 'user:teamjoin' %}" class="btn btn-info btn-lg a">
+            <span class="glyphicon glyphicon-eye-open"></span>加入团队
+        </a>
+        &nbsp;&nbsp;
+        <a href="{% url 'user:teamregister' %}" class="btn btn-info btn-lg a">
+            <span class="glyphicon glyphicon-edit"></span>创建团队
+        </a>
+
+
+        <div class="container" id="apply">
+            <ul class="list-group col-xs-4 col-xs-offset-4">
+                <li class="list-group-item active"><h4 class=" list-group-item-heading">你的申请情况：</h4></li>
+                {% if appliessent %}
+                    {% for apply in appliessent %}
+                        <li class="list-group-item">队名：{{ apply.team }}-------状态： {{ apply.apply_state }}</li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item">还没有申请！</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

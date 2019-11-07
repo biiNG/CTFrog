@@ -1,6 +1,8 @@
 {% extends 'navigationbar.html' %}
 
-
+{% block title %}
+        rank
+    {% endblock %}
 {% block custombody %}
     <div class="container">
         <div class="row">
@@ -54,10 +56,10 @@
                 {% for foo in data.object_list %}
 
                     {% ifequal foo.id 1 %}
-                        <tr style="color: DodgerBlue;font-size: 18px">
+                        <tr style="color: DodgerBlue;font-size: 22px">
 
                             <td>{{ foo.id }}</td>
-                            <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                            <td><a href="{% url 'user:just_look' foo.name%}">{{ foo.name }}</a></td>
                             <td>{{ foo.score }}</td>
 
                         </tr>
@@ -68,17 +70,17 @@
                             <tr style="color: DodgerBlue;font-size: 17px">
 
                                 <td>{{ foo.id }}</td>
-                                <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                <td><a href="{% url 'user:just_look' foo.name%}">{{ foo.name }}</a></td>
                                 <td>{{ foo.score }}</td>
 
                             </tr>
 
                         {% else %}
                             {% ifequal foo.id 3 %}
-                                <tr style="color: DodgerBlue;font-size: 16px">
+                                <tr style="color: DodgerBlue;font-size: 17px">
 
                                     <td>{{ foo.id }}</td>
-                                    <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                    <td><a href="{% url 'user:just_look' foo.name%}">{{ foo.name }}</a></td>
                                     <td>{{ foo.score }}</td>
 
                                 </tr>
@@ -87,7 +89,7 @@
                                 <tr>
 
                                     <td>{{ foo.id }}</td>
-                                    <td><a href="/user/team/profile">{{ foo.name }}</a></td>
+                                    <td><a href="{% url 'user:just_look' foo.name%}">{{ foo.name }}</a></td>
                                     <td>{{ foo.score }}</td>
 
                                 </tr>
@@ -121,38 +123,38 @@
 
                 {% for foo in data.object_list %}
                     {% ifequal foo.id 1 %}
-                        <tr style="color: DodgerBlue;font-size: 18px">
+                        <tr style="color: DodgerBlue;font-size: 22px">
                             <td>{{ foo.id }}</td>
-                            <td><a href="/user/profile">{{ foo.name }}</a></td>
+                            <td><a href="{% url 'user:profile' foo.name %}">{{ foo.name }}</a></td>
                             <td>{{ foo.mark }}</td>
-                            <td>{{ foo.answer_num }}</td>
+                            <td>{{ foo.right_num }}</td>
                             <td>{{ foo.submit_num }}</td>
-                            <td>{{ foo.rate_num }}</td>
+                            <td>{{ foo.accuracy }}</td>
                         </tr>
 
 
                     {% else %}
 
                         {% ifequal foo.id 2 %}
-                            <tr style="color: DodgerBlue;font-size: 17px">
+                            <tr style="color: DodgerBlue;font-size: 19px">
                                 <td>{{ foo.id }}</td>
-                                <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                <td><a href="{% url 'user:profile' foo.name %}">{{ foo.name }}</a></td>
                                 <td>{{ foo.mark }}</td>
-                                <td>{{ foo.answer_num }}</td>
+                                <td>{{ foo.right_num }}</td>
                                 <td>{{ foo.submit_num }}</td>
-                                <td>{{ foo.rate_num }}</td>
+                                <td>{{ foo.accuracy }}</td>
                             </tr>
 
 
                         {% else %}
                             {% ifequal foo.id 3 %}
-                                <tr style="color: DodgerBlue;font-size: 16px">
+                                <tr style="color: DodgerBlue;font-size: 17px">
                                     <td>{{ foo.id }}</td>
-                                    <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                    <td><a href="{% url 'user:profile' foo.name %}">{{ foo.name }}</a></td>
                                     <td>{{ foo.mark }}</td>
-                                    <td>{{ foo.answer_num }}</td>
+                                    <td>{{ foo.right_num }}</td>
                                     <td>{{ foo.submit_num }}</td>
-                                    <td>{{ foo.rate_num }}</td>
+                                    <td>{{ foo.accuracy }}</td>
                                 </tr>
 
 
@@ -160,11 +162,11 @@
 
                                 <tr>
                                     <td>{{ foo.id }}</td>
-                                    <td><a href="/user/profile">{{ foo.name }}</a></td>
+                                    <td><a href="{% url 'user:profile' foo.name %}">{{ foo.name }}</a></td>
                                     <td>{{ foo.mark }}</td>
-                                    <td>{{ foo.answer_num }}</td>
+                                    <td>{{ foo.right_num }}</td>
                                     <td>{{ foo.submit_num }}</td>
-                                    <td>{{ foo.rate_num }}</td>
+                                    <td>{{ foo.accuracy }}</td>
                                 </tr>
                             {% endifequal %}
                         {% endifequal %}

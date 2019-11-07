@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from . import user_forms, models
 import hashlib
 from . import check_permission
+from challenge.models import Challenge, WhoFinishMe
 from .testing import *
+
 '''
 session中保存的变量：
 username
@@ -24,7 +26,7 @@ def hash_code(s, salt='mysite'):
 def login(request):
     request.session.set_expiry(0)
     if request.session.get('is_login', None):  # 不允许重复登录
-        return redirect('user:profile')
+        return redirect('/home')
     message = request.session.pop('message', None)
 
     if request.method == 'POST':
@@ -52,7 +54,7 @@ def login(request):
                     request.session['is_in_team'] = False
                 # writetest(request.session['teamname'])
 
-                return redirect('user:profile')
+                return redirect('/home')
         else:
             request.session['message'] = '输入有误'
     else:
@@ -73,6 +75,8 @@ def register(request):
             password2 = register_form.cleaned_data.get('password2')
             email = register_form.cleaned_data.get('email')
             sex = register_form.cleaned_data.get('sex')
+            student_id = register_form.cleaned_data.get('studentid')
+            real_name = register_form.cleaned_data.get('realname')
 
             if password1 != password2:
                 request.session['message'] = '两次密码不一致'
@@ -92,6 +96,8 @@ def register(request):
                 new_user.password = hash_code(password1)
                 new_user.email = email
                 new_user.sex = sex
+                new_user.real_name = real_name
+                new_user.student_id = student_id
                 new_user.save()
                 request.session['message'] = '注册成功'
                 return redirect('user:login')
@@ -113,14 +119,28 @@ def logout(request):
 
 
 @check_permission.check_login
-def profile(request):
+def profile(request, username):
     '''将
     username、email、sex、form送入了表格中
     '''
-    username = request.session['username']
     saved_user = models.User.objects.get(name=username)
     # with open('read.txt', 'w') as f:
     #     f.write(saved_user)
+    finished_challenges = Challenge.objects.filter(whofinishme__user__name=username).filter(
+        whofinishme__finished=True)
+    pwn_challenges = []
+    web_challenges = []
+    re_challenges = []
+    gen_challenges = []
+    for c in finished_challenges:
+        if c.category == 'pwn':
+            pwn_challenges.append(c)
+        elif c.category == 'web':
+            web_challenges.append(c)
+        elif c.category == 're':
+            re_challenges.append(c)
+        elif c.category == 'gen':
+            gen_challenges.append(c)
     email = saved_user.email
     sex = saved_user.sex
     id = saved_user.student_id
@@ -135,6 +155,7 @@ def profile(request):
 
     form = user_forms.UpdateProfileForm(initial={'student_id': id})
     return render(request, 'user/profile.html', locals())
+
 
 # def
 @check_permission.check_login
@@ -154,7 +175,7 @@ def changepassword(request):
                 saveduser.password = hash_code(pass1)
                 saveduser.save()
                 request.session['message'] = "修改成功"
-                return redirect("user:profile")
+                return redirect("user:changepassword")
         else:
             request.session['message'] = "输入有误"
             return redirect("user:changepassword")

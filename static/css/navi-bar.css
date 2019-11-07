@@ -1,6 +1,6 @@
 body {
     background: linear-gradient(#fffaf0, #fffaf0);
-    font-family: 'Ubuntu';
+    font-family:"Ubuntu","Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 a {
@@ -39,28 +39,28 @@ a:visited {
     letter-spacing: 2px;
 }
 
-@media screen and (max-width: 1200px) {
+/*@media screen and (max-width: 1200px) {*/
 
-    .navigationBarLeft ul li:not(:first-child), .navigationBarRight ul li:not(:first-child) {
-        display: none;
-        width: 100%;
-    }
+/*    .navigationBarLeft ul li:not(:first-child), .navigationBarRight ul li:not(:first-child) {*/
+/*        display: none;*/
+/*        width: 100%;*/
+/*    }*/
 
-    .navigationBarRight ul li:first-child {
-        display: inline-block;
-        cursor: pointer;
-        float: right;
-    }
+/*    .navigationBarRight ul li:first-child {*/
+/*        display: inline-block;*/
+/*        cursor: pointer;*/
+/*        float: right;*/
+/*    }*/
 
-    .navigationBarLeft, .navigationBarRight {
-        width: 50%;
-    }
+/*    .navigationBarLeft, .navigationBarRight {*/
+/*        width: 50%;*/
+/*    }*/
 
-    .container {
-        padding: 0;
-    }
+/*    .container {*/
+/*        padding: 0;*/
+/*    }*/
 
-    li {
-        padding-left: 10px;
-    }
-}
+/*    li {*/
+/*        padding-left: 10px;*/
+/*    }*/
+/*}*/

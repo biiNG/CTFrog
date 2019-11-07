@@ -3,41 +3,95 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Team Details</title>
+    {{ saved_user.name }}
 {% endblock %}
 
 {% block customcss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user/profile.css' %}">
 {% endblock %}
 
 {% block custombody %}
+    <div  class="head text-center">
+        <h2>{{ saved_user.name }}的个人信息</h2>
 
-<div id="pageHeading">
-    <p>Profile</p>
-</div>
-
-<div class="container">
-    <div id="updateForm">
-        {% for item in unchange %}
-        <p><b>{{item}}</b> : {{ item.value }}</p>
-        {% endfor %}
-        <p><b>{{username}}</b> : {{ username }}</p>
-
-        <form method="post" action="{% url 'user:profile' %}">
-            {% csrf_token %}
-            {% for field in form %}
-            <div>
-                <label>{{ field.label }}</label>
-                {{ field }}
-            </div>
-            {% endfor %}
-
-            <input type="submit" name="update" value="Update" class="updateFormButton">
-        </form>
-        <a href="{%url 'user:changepassword' %} ">修改密码</a>
     </div>
-    <div style="text-align: center;">
-        <a href="changepassword/">Change Password</a>
-    </div>
-</div>
 
+    <div class="container">
+        <div>
+            <table class="col-xs-4  col-xs-offset-1 table-bordered table-hover table-striped">
+                <tbody>
+                <tr>
+                    <th scope="row">用户名</th>
+                    <td>{{ saved_user.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">所属团队</th>
+                    <td>{{ saved_user.team }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">得分</th>
+                    <td>{{ saved_user.mark }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">提交数</th>
+                    <td>{{ saved_user.submit_num }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">正确数</th>
+                    <td>{{ saved_user.right_num }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">正确率</th>
+                    <td>{{ saved_user.accuracy }}%</td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="col-xs-6 col-xs-offset-1 table-bordered table-hover table-striped">
+                <tr>
+                    <th colspan="20">已完成题目</th>
+                </tr>
+                <tr>
+                    <th>PWN</th>
+                    {% for challenge in pwn_challenges %}
+                        <td>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>WEB</th>
+                    {% for challenge in web_challenges %}
+                        <td>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>RE</th>
+                    {% for challenge in re_challenges %}
+                        <td>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>GEN</th>
+                    {% for challenge in gen_challenges %}
+                        <td>
+                            <a href="{% url 'challenge-detail' challenge.pk %}">{{ challenge.title }}</a>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="text-center">
+        {% ifequal request.session.username saved_user.name %}
+            <a href="{% url 'user:changepassword' %}" class="btn btn-link ">
+            <h4>
+                <button type="button" class="btn">修改密码</button>
+            </h4></a>
+        {% endifequal %}
+    </div>
 {% endblock %}

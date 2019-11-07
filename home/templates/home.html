@@ -1,5 +1,16 @@
 {% extends 'navigationbar.html' %}
-
+{% load static %}
 {% block title %}
-<title>CTFrog</title>
+CTFrog
+{% endblock %}
+{% block custombody %}
+    <div align="center" class="picture">
+    <img src="{% static 'image/frog.jpg' %}" alt="图片" width="400" height="400" >
+    </div>
+    <br>
+    <br>
+    <div align="center" class="daoyu" style="margin-bottom: 20px">
+    <h1>一个适合初学者的CTF网站</h1>
+    <h1>开始你的挑战吧！</h1>
+    </div>
 {% endblock %}
