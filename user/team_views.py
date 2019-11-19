@@ -16,8 +16,8 @@ def writetest(string):
 
 
 def clearteamsession(request):
-    request.session.pop('is_in_team', None)
-    request.session.pop('teamname', None)
+    request.session['is_in_team'] = False
+    request.session['teamname'] = ''
 
 
 @check_login
@@ -66,7 +66,6 @@ def profile(request):
                     'normal': 'team/profile/normal.html'}
     returntemplate = templateurls['normal']
     user = models.User.objects.get(name=request.session['username'])
-
     if request.session['is_in_team']:
         # 如果该用户有团队则进入该分支
         team = models.Team.objects.get(name=request.session['teamname'])
@@ -186,7 +185,7 @@ def expel(request, user_id):
         user = User.objects.get(pk=user_id)
         user.team = None
         user.save()
-        team.score -= user.score
+        team.score -= user.mark
         team.save()
         kickmessage = KickedMessage()  # 发送踢人的信息
         kickmessage.reason = request.POST['reason']
@@ -225,4 +224,4 @@ def dismiss(request, team_id):
     team.delete()
     request.session['message'] = "删除成功"
     clearteamsession(request)
-    return redirect('user:profile')
+    return redirect('user:teamprofile')

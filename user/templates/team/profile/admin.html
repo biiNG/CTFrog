@@ -21,7 +21,7 @@
                         <li class="list-group-item list-group-item-success"><a
                                 href="{% url 'user:just_look' member.name %}">{{ member }}(就是你啦，队长)</a></li>
                     {% else %}
-                        <li class="list-group-item"><a href="{% url 'user:just_look' member.name %}">{{ member }}</a>------<a href="{% url 'user:teamexpel' member.id %}">踢</a>
+                        <li class="list-group-item"><a href="{% url 'user:profile' member.name %}">{{ member }}</a>------<a href="{% url 'user:teamexpel' member.id %}">踢</a>
                         </li>
                     {% endifequal %}
                 {% endfor %}

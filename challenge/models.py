@@ -13,6 +13,7 @@ class Challenge(models.Model):
     bonus = models.IntegerField()
     flag = models.CharField(max_length=200)
     file = models.FileField(null=True, upload_to='ChallengeFiles/')
+    url = models.URLField(null=True)
 
     finishMe = models.ManyToManyField(User,through='WhoFinishMe')
     finishedtimes = models.IntegerField(default=0)

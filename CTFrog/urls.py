@@ -29,6 +29,7 @@ urlpatterns = [
     path('announcement/', include('announcement.urls')),
     path('user/', include('user.urls'), name='user'),
     url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
-    path('rank/', RankView.RankView.as_view()),
+    path('rank/',include('rank.urls')),
+    # path('rank/', RankView.RankView.as_view()),
 
 ]
