@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include
 from django.views.static import serve  # 上传文件处理函数
-from rank import views as RankView
+# from rank import views as RankView
 from .settings import MEDIA_ROOT  # 从配置中导入MEDIA_ROOT
 
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('announcement/', include('announcement.urls')),
     path('user/', include('user.urls'), name='user'),
     url(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}),
-    path('rank/', RankView.RankView.as_view()),
+    path('rank/',include('rank.urls')),
+    # path('rank/', RankView.RankView.as_view()),
 
 ]

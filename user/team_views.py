@@ -186,7 +186,7 @@ def expel(request, user_id):
         user = User.objects.get(pk=user_id)
         user.team = None
         user.save()
-        team.score -= user.score
+        team.score -= user.mark
         team.save()
         kickmessage = KickedMessage()  # 发送踢人的信息
         kickmessage.reason = request.POST['reason']

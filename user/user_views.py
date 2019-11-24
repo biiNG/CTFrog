@@ -3,10 +3,14 @@ from django.contrib import auth
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from . import user_forms, models
+from .models import User, Team
 import hashlib
 from . import check_permission
 from challenge.models import Challenge, WhoFinishMe
 from .testing import *
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from CTFrog.settings import SECRET_KEY, EMAIL_FROM, EMAIL_HOST_USER
+from django.core.mail import send_mail
 
 '''
 session中保存的变量：
@@ -25,8 +29,9 @@ def hash_code(s, salt='mysite'):
 
 def login(request):
     request.session.set_expiry(0)
-    if request.session.get('is_login', None):  # 不允许重复登录
+    if request.session.get('is_login', False):
         return redirect('/home')
+
     message = request.session.pop('message', None)
 
     if request.method == 'POST':
@@ -43,10 +48,14 @@ def login(request):
             if user_existed.password != hash_code(password):
                 request.session['message'] = '密码错误'
                 return redirect('user:login')
+            elif user_existed.is_verified is False:
+                request.session['message'] = "请先认证"
+                return redirect("user:login")
             else:
                 request.session['is_login'] = True
                 # request.session['user_id']      = user_existed.id
                 request.session['username'] = user_existed.name
+
                 if user_existed.team:
                     request.session['teamname'] = user_existed.team.name
                     request.session['is_in_team'] = True
@@ -70,27 +79,29 @@ def register(request):
     if request.method == 'POST':
         register_form = user_forms.RegisterForm(request.POST)
         if register_form.is_valid():
-            username = register_form.cleaned_data.get('username')
-            password1 = register_form.cleaned_data.get('password1')
-            password2 = register_form.cleaned_data.get('password2')
-            email = register_form.cleaned_data.get('email')
-            sex = register_form.cleaned_data.get('sex')
-            student_id = register_form.cleaned_data.get('studentid')
-            real_name = register_form.cleaned_data.get('realname')
+            all_data = register_form.cleaned_data
+            username = all_data.get('username')
+            password1 = all_data.get('password1')
+            password2 = all_data.get('password2')
+            email = all_data.get('email')
+            sex = all_data.get('sex')
+            student_id = all_data.get('studentid')
+            real_name = all_data.get('realname')
+            same_name_user = models.User.objects.filter(name=username)
+            same_email_user = models.User.objects.filter(email=email)
 
             if password1 != password2:
                 request.session['message'] = '两次密码不一致'
                 return redirect('user:register')
+            elif same_name_user:
+                request.session['message'] = '用户名已经存在'
+                return redirect('user:register')
+            elif same_email_user:
+                request.session['message'] = '该邮箱已经被注册了！'
+                return redirect('user:register')
             else:
-                same_name_user = models.User.objects.filter(name=username)
-                if same_name_user:
-                    request.session['message'] = '用户名已经存在'
-                    return redirect('user:register')
-                same_email_user = models.User.objects.filter(email=email)
-                if same_email_user:
-                    request.session['message'] = '该邮箱已经被注册了！'
-                    return redirect('user:register')
-
+                # 用户名和邮件均可用的话进入该分支
+                # 建立新用户
                 new_user = models.User()
                 new_user.name = username
                 new_user.password = hash_code(password1)
@@ -99,7 +110,19 @@ def register(request):
                 new_user.real_name = real_name
                 new_user.student_id = student_id
                 new_user.save()
-                request.session['message'] = '注册成功'
+                # 发送邮件
+                s = Serializer(SECRET_KEY, 3600)
+                token = s.dumps(new_user.pk)
+                token = token.decode("utf-8")
+                hostname = "localhost:8000/"
+                protocal_used = r"http://"
+                hypertext = '<a href="%s%suser/verify/%s" >%s%suser/verify/%s </a>' % (
+                    protocal_used, hostname, token, protocal_used, hostname, token)
+                send_message = 'please click this<br/>' + hypertext
+                send_mail(subject="欢迎注册CTFrog", message="hallo", html_message=send_message, from_email=EMAIL_HOST_USER,
+                          recipient_list=[email])
+
+                request.session['message'] = '注册成功，一封确认邮件已发送至您的邮箱'
                 return redirect('user:login')
         else:
             request.session['message'] = '输入有误'
@@ -107,6 +130,21 @@ def register(request):
     else:
         register_form = user_forms.RegisterForm()
     return render(request, 'user/register.html', {'message': message, 'register_form': register_form})
+
+
+def verify(request, token):
+    s = Serializer(secret_key=SECRET_KEY, expires_in=3600)
+    user_id = s.loads(token)
+    try:
+        user = User.objects.get(pk=user_id)
+        writetest("i get user")
+    except:
+        return render(request, template_name='user/login.html')
+    user.is_verified = True
+    user.save()
+    request.session['message'] = '验证成功'
+    writetest("ok")
+    return redirect('user:login')
 
 
 def logout(request):
