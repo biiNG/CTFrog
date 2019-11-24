@@ -30,9 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rank.apps.RankConfig',
-    # 'login.apps.LoginConfig',
     'user.apps.UserConfig',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,11 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
-    # 'login.apps.LoginConfig',
-
-    'werkzeug_debugger_runserver',
-    'django_extensions',
-
+    # 'werkzeug_debugger_runserver',
+    # 'django_extensions',
     'announcement.apps.AnnouncementConfig',
     'challenge.apps.ChallengeConfig',
 
@@ -65,7 +60,7 @@ ROOT_URLCONF = 'CTFrog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,6 +125,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'all_static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
 
 # LOGIN_URL='
-MEDIA_ROOT = os.path.join(BASE_DIR,
-                          'media')  # os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media').replace('\\', '/')
+# os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media').replace('\\', '/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'liuxiangru2000@163.com'
+EMAIL_HOST_PASSWORD = 'bjez33lxr'
+EMAIL_FROM = 'Django-Verification' + EMAIL_HOST_USER

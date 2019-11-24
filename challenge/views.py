@@ -39,11 +39,13 @@ def ChallengeHome(request):
 
 def ChallengeDetail(request, primarykey):
     challenge = Challenge.objects.get(pk=primarykey)
-    firstblood = WhoFinishMe.objects.filter(challenge=challenge).order_by('finishedTime').first()
+    firstblood = WhoFinishMe.objects.filter(
+        challenge=challenge).order_by('finishedTime').first()
     if request.session.get('is_login', False):
         username = request.session['username']
         user_existed = models.User.objects.get(name=username)
-        finish = Challenge.objects.filter(whofinishme__challenge=challenge).filter(whofinishme__user=user_existed)
+        finish = Challenge.objects.filter(whofinishme__challenge=challenge).filter(
+            whofinishme__user=user_existed)
     else:
         finish = []
     form = FlagForm(request.POST)
@@ -78,13 +80,16 @@ def CheckFlag(request, primarykey):
                 challenge = Challenge.objects.get(pk=primarykey)
                 username = request.session['username']
                 user_existed = models.User.objects.get(name=username)
-                finish = WhoFinishMe.objects.filter(challenge=challenge).filter(user=user_existed)
+                finish = WhoFinishMe.objects.filter(
+                    challenge=challenge).filter(user=user_existed)
 
                 if (form.cleaned_data["Flag"] == challenge.flag) and (not finish):
-                    F1 = WhoFinishMe(challenge=challenge, user=user_existed, finished=True)
+                    F1 = WhoFinishMe(challenge=challenge,
+                                     user=user_existed, finished=True)
                     F1.save()
                     challenge.finishedtimes += 1
-                    messages.add_message(request, messages.SUCCESS, "Frog Caught！")
+                    messages.add_message(
+                        request, messages.SUCCESS, "Frog Caught！")
                     user_existed.mark += challenge.bonus
                     user_existed.submit_num += 1
                     user_existed.right_num += 1
@@ -100,6 +105,8 @@ def CheckFlag(request, primarykey):
                     user_existed.update_accuracy()
                     user_existed.save()
                     messages.add_message(request, messages.ERROR, "Frog is escaping......")
+                    messages.add_message(
+                        request, messages.ERROR, "Frog is escaping......")
                 return redirect('challenge-detail', primarykey=primarykey)
     else:
         return redirect('challenge-detail', primarykey=primarykey)

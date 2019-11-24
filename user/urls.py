@@ -28,4 +28,5 @@ urlpatterns = [
     path('team/<int:user_id>/expel', team_views.expel, name='teamexpel'),
     path('team/dismiss/<int:team_id>', team_views.dismiss, name='teamdismiss'),
     path('team/<path:teamname>', team_views.just_look, name='just_look'),
+    path('verify/<path:token>', user_views.verify, name="verify")
 ]
