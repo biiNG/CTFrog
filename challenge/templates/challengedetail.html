@@ -21,15 +21,19 @@
                         <li class="list-group-item">分数 : {{ bonus }}</li>
                         <li class="list-group-item">分类 : {{ category }}</li>
                         <li class="list-group-item">题目描述 ：<br/>
-                            <p>{{ description }}</p></li>
+                            <p>{{ description|safe|linebreaksbr }}</p></li>
 
                         {% if firstBlood is not None %}
                             <li class="list-group-item">第一个完成此题目的人是：{{ firstBlood.user }}</li>
                             <li class="list-group-item">时间为：{{ firstBlood.finishedTime }}</li>
                         {% endif %}
                         <li class="list-group-item">已经有{{ finishtimes }}人完成了本题</li>
+                    {% if URL is null %}
                         <li class="list-group-item list-group-item-success"><a href="/media/{{ file.name }}">传送门</a>
                         </li>
+                    {% else %}
+                        <li class="list-group-item list-group-item-success"><a href="{{ URL }}">传送门</a></li>
+                    {% endif %}
                         <li class="list-group-item">完成状况：
                             {% if finish %}
                                 已经完成！不可以再提交flag啦！

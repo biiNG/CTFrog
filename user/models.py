@@ -41,7 +41,7 @@ class User(models.Model):
 
     # auto_now_add 自动设置为创建这个model的时间
     creat_time = models.DateTimeField(auto_now_add=True)
-    student_id = models.IntegerField(verbose_name='The student id of the user', unique=True, null=False)
+    student_id = models.IntegerField(verbose_name='The student id of the user', null=False)
     real_name = models.CharField(max_length=10, null=False, default="default", verbose_name="The user's real_name")
     mark = models.IntegerField(default=0)
     # team

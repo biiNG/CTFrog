@@ -61,6 +61,7 @@ def ChallengeDetail(request, primarykey):
                                                     'form': form,
                                                     'finish': finish,
                                                     'firstBlood': firstblood,
+                                                    'URL': challenge.url,
                                                     },
                   )
 
@@ -90,6 +91,9 @@ def CheckFlag(request, primarykey):
                     messages.add_message(
                         request, messages.SUCCESS, "Frog Caught！")
                     user_existed.mark += challenge.bonus
+                    user_existed.submit_num += 1
+                    user_existed.right_num += 1
+                    user_existed.update_accuracy()
                     user_existed.save()
                     if request.session['is_in_team']:
                         teamname = request.session['teamname']
@@ -97,6 +101,10 @@ def CheckFlag(request, primarykey):
                         team.score += challenge.bonus
                         team.save()
                 else:
+                    user_existed.submit_num += 1
+                    user_existed.update_accuracy()
+                    user_existed.save()
+                    messages.add_message(request, messages.ERROR, "Frog is escaping......")
                     messages.add_message(
                         request, messages.ERROR, "Frog is escaping......")
                 return redirect('challenge-detail', primarykey=primarykey)

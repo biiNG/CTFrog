@@ -19,11 +19,11 @@
                 <li class="list-group-item active"><h4 class=" list-group-item-heading"> 队伍成员 </h4></li>
                 {% for member in members %}
                     {% if member.name == request.session.username %}
-                        <li class="list-group-item list-group-item-text"><a href="{% url 'user:just_look' member.name%}">{{ member }}(就是你啦)</a></li>
+                        <li class="list-group-item list-group-item-text"><a href="{% url 'user:profile' member.name%}">{{ member }}(就是你啦)</a></li>
                     {% elif member.name == admin %}
-                        <li class="list-group-item list-group-item-success"><a href="{% url 'user:just_look' member.name%}">{{ admin }}（队长）</a></li>
+                        <li class="list-group-item list-group-item-success"><a href="{% url 'user:profile' member.name%}">{{ admin }}（队长）</a></li>
                     {% else %}
-                        <li class="list-group-item "><a href="{% url 'user:just_look' member.name%}">{{ member }}</a></li>
+                        <li class="list-group-item "><a href="{% url 'user:profile' member.name%}">{{ member }}</a></li>
                     {% endif %}
                 {% endfor %}
             </ul>

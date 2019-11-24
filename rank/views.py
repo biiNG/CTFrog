@@ -1,3 +1,5 @@
+
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -35,11 +37,11 @@ class RankView(View):
                     resultlist.append(i)
             all_page = Paginator(resultlist, int(page_size))  # 将数据和单页条数放到Paginator里面
             data = all_page.page(page)  # 获取具体页的
-            return render(request, 'rank.html', locals())
+            return render(request, 'rank/rank.html', locals())
         else:
             for i in all_data:
                 i.id = rank
                 rank += 1
             all_page = Paginator(all_data, int(page_size))  # 将数据和单页条数放到Paginator里面
             data = all_page.page(page)  # 获取具体页的
-            return render(request, 'rank.html', locals())
+            return render(request, 'rank/rank.html', locals())
