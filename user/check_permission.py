@@ -16,8 +16,9 @@ def check_login(function):
         # writetest(args)
         # writetest(kargs)
 
-        if request.session.get('is_login', None):
+        if not request.session.get('is_login', None):
             request.session['message'] = '请先登录'
+            writetest(request.session.get("is_login",None))
             return redirect('user:login')
 
         else:

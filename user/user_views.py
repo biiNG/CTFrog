@@ -45,6 +45,7 @@ def login(request):
             except:
                 request.session['message'] = '无效的用户名'
                 return redirect('user:login')
+
             if user_existed.password != hash_code(password):
                 request.session['message'] = '密码错误'
                 return redirect('user:login')
@@ -121,6 +122,7 @@ def register(request):
                 send_message = 'please click this<br/>' + hypertext
                 send_mail(subject="欢迎注册CTFrog", message="hallo", html_message=send_message, from_email=EMAIL_HOST_USER,
                           recipient_list=[email])
+
 
                 request.session['message'] = '注册成功，一封确认邮件已发送至您的邮箱'
                 return redirect('user:login')
