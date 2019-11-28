@@ -5,6 +5,8 @@ from user import check_permission, models
 from .forms import FlagForm
 from challenge.models import Challenge, WhoFinishMe
 
+import hashlib
+
 
 def ChallengeHome(request):
     all_challenges = Challenge.objects.all()
@@ -83,7 +85,10 @@ def CheckFlag(request, primarykey):
                 finish = WhoFinishMe.objects.filter(
                     challenge=challenge).filter(user=user_existed)
 
-                if (form.cleaned_data["Flag"] == challenge.flag) and (not finish):
+                hashFlag = hashlib.sha1(challenge.flag.encode("utf8"))
+                hashFlagSubmit = hashlib.sha1(form.cleaned_data["Flag"].encode("utf8"))
+
+                if (hashFlag.hexdigest() == hashFlagSubmit.hexdigest()) and (not finish):
                     F1 = WhoFinishMe(challenge=challenge,
                                      user=user_existed, finished=True)
                     F1.save()
@@ -105,8 +110,9 @@ def CheckFlag(request, primarykey):
                     user_existed.update_accuracy()
                     user_existed.save()
                     messages.add_message(request, messages.ERROR, "Frog is escaping......")
-                    messages.add_message(
-                        request, messages.ERROR, "Frog is escaping......")
+
                 return redirect('challenge-detail', primarykey=primarykey)
+            else:
+                messages.add_message(request, messages.WARNING, "你在乱输入些什么啊？")
     else:
         return redirect('challenge-detail', primarykey=primarykey)

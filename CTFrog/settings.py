@@ -24,7 +24,7 @@ SECRET_KEY = 'oh-i5-=93_dxfb=c&egzvmg**a^f6ezn#f&gm4*q$13sqlej9n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.122.232.222','127.0.0.1','192.168.108.1']
 
 # Application definition
 
