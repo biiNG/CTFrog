@@ -1,77 +1,183 @@
 
-<<<<<<< HEAD
-<django.contrib.sessions.backends.db.SessionStore object at 0x000001B43C1547C8>
-True
-=======
-'Manager' object has no attribute 'remove'
-5
-5
-5
-5
-5
-5
-5
-5
-5
-5
+i get user
+ok
+i get user
+ok
+None
+None
 []
+0
+['biing3']
+['biing3']
+['biing3']
+['biing3']
 []
-5
-5
-5
-5
-['liu2']
-5
-['liu2', 'liu3']
-[]
-['biing2']
-5
-['biing2']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-['biing2', 'biing3']
-[]
-5
-[]
-['1013497232']
-['biing2', 'biing3']
-['biing2', 'biing3']
 0
 i get user
-i get user
-i get user
-i get user
-i get user
-i get user
-i get user
+ok
+['biing3']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+None
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+['biing3', 'biing']
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+0
 i get user
 ok
-i get user
-ok
-i get user
-ok
-i get user
-ok
->>>>>>> origin
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None
+None

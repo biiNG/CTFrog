@@ -131,7 +131,8 @@ MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 25
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'liuxiangru2000@163.com'
 EMAIL_HOST_PASSWORD = 'bjez33lxr'
 EMAIL_FROM = 'Django-Verification' + EMAIL_HOST_USER

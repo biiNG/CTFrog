@@ -1,0 +1,4 @@
+欢迎登录哈！
+flag形如CTFrog{xxx_xxx}
+原创题by：biing
+原创题的flag都是这样的嗷

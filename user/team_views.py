@@ -127,17 +127,17 @@ def join(request):
                                  for apply in admin.appliesreceived.all()]
         writetest(apply_admin_collected)
         if user.name in apply_admin_collected:
-            messages.add_message(request, messages.ERROR, "不能重复申请！")
+            messages.add_message(request, messages.SUCCESS, "不能重复申请！")
         else:
             apply = models.ApplyMessage()
             apply.receiver = admin
             apply.sender = user
             apply.team = teamname
             apply.save()
-            request.session['message'] = '成功发送申请'
-    message = request.session.pop('message', None)
+            messages.add_message(request, messages.SUCCESS, "成功发送申请！")
+    #message = request.session.pop('message', None)
     return render(request, 'team/join.html', {'teams': teams,
-                                              'message': message,
+                                              
                                               })
 
 

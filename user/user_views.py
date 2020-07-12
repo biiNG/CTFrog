@@ -115,11 +115,11 @@ def register(request):
                 s = Serializer(SECRET_KEY, 3600)
                 token = s.dumps(new_user.pk)
                 token = token.decode("utf-8")
-                hostname = "localhost:8000/"
+                hostname = "49.235.204.174/"
                 protocal_used = r"http://"
                 hypertext = '<a href="%s%suser/verify/%s" >%s%suser/verify/%s </a>' % (
                     protocal_used, hostname, token, protocal_used, hostname, token)
-                send_message = 'please click this<br/>' + hypertext
+                send_message = 'Welcome to register in CTFrog! Please click this URL to finish it and begin to CTF!<br/>' + hypertext
                 send_mail(subject="欢迎注册CTFrog", message="hallo", html_message=send_message, from_email=EMAIL_HOST_USER,
                           recipient_list=[email])
 
